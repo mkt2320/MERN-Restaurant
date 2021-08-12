@@ -54,4 +54,35 @@ router.post('/add',(req, res) => {
 });
 
 
+
+// (CRUD) D-Delete document 
+router.get('/delete/:id',(req, res) => {
+    User.findById(req.params.id)
+        .then(user => res.json(user))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+router.delete('/delete/:id',(req, res) => {
+    User.findByIdAndDelete(req.params.id)
+    .then(user => res.json('User deleted...'))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+    
+
+
+
+// (CRUD) U-Update document 
+router.post('/update/:id',(req, res) => {
+    User.findById(req.params.id)
+        .then(user => {
+            user.userid = req.body.userid;
+            user.username = req.body.username;
+
+            user.save()
+                .then(() => res.json('User updated...'))
+                .catch(err => res.status(400).json('Error: ' + err));
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
+
 module.exports = router;

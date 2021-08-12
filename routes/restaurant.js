@@ -23,6 +23,7 @@ router.post('/', async (req, res) => {
 })
 */
 
+// (CRUD) C-Create document 
 router.get('/',(req, res) => {
     Restaurant.find() // mongoose to see all the documents
         .then(restaurant => res.json(restaurant)) //get it from database and pass it in Json
@@ -48,6 +49,44 @@ router.post('/add',(req, res) => {
         .then(() => res.json('Restaurant added...'))
         .catch(err => res.status(400).json('Error: ' + err));
 });
+
+
+
+
+// (CRUD) D-Delete document 
+router.get('/delete/:id',(req, res) => {
+    Restaurant.findById(req.params.id)
+        .then(restaurant => res.json(restaurant))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+router.delete('/delete/:id',(req, res) => {
+    Restaurant.findByIdAndDelete(req.params.id)
+    .then(restaurant => res.json('Restaurant deleted...'))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+    
+
+
+
+// (CRUD) U-Update document 
+router.post('/update/:id',(req, res) => {
+    Restaurant.findById(req.params.id)
+        .then(restaurant => {
+            restaurant.username = req.body.username;
+            restaurant.description = req.body.description;
+            restaurant.address = req.body.address;
+            restaurant.contact = Number(req.body.contact);
+            restaurant.date = Date.parse(req.body.date);
+
+            restaurant.save()
+                .then(() => res.json('Restaurant updated...'))
+                .catch(err => res.status(400).json('Error: ' + err));
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
+
+
 
 
 module.exports = router;

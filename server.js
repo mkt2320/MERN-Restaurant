@@ -6,7 +6,7 @@ require('dotenv').config(); // To have env variables in dotenv file.
 
 // To configure the server
 const app = express();
-const port = process.env.Port || 3000;
+const port = process.env.Port || 3000; 
 
 // Middleware
 app.use(cors());
